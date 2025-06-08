@@ -1,0 +1,452 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Visual Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #000000; 
+            font-family: 'Poppins', sans-serif;
+            padding: 30px;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container-fluid
+        {
+            width: 100%;
+            margin: 0px;
+            padding: 0 20px;
+        }
+        h1 
+        {
+            font-weight: 700;
+            margin-bottom: 40px;
+            font-size: 3rem;
+            text-align: center;
+            color: white;
+        }
+        .dashboard
+        {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1900px;
+            margin: 0 auto;
+        }
+        canvas
+        {
+            width: 100%;
+            display: block;
+            margin: 0 auto; 
+            max-width: 100%;
+            height: auto;
+        }
+        .card
+        {
+            background-color: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px 8px rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            text-align: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            min-height: 320px;
+            overflow-x: auto;
+
+        }
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 4px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .card h4 {
+            font-weight: 600;
+            color: #ffb74d; 
+            margin-bottom: 20px;
+        }
+        .card canvas#pieChart {
+            height: 200px; 
+        }
+        .browsing-history-card {
+            grid-column: span 2; 
+            min-height: 350px; 
+        }
+
+        .table-responsive {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px 6px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 350px;
+            overflow-y: auto; 
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            color: #e0e0e0; 
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        thead {
+            background-color: rgba(255, 255, 255, 0.15); 
+            color: #ffb74d;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.12); 
+        }
+        table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+        .btn-danger
+        {
+            background: linear-gradient(145deg, #ff4c4c, #ff1a1a);
+            border: none;
+            border-radius: 30px;
+            padding: 12px 28px;
+            font-weight: bold;
+            margin-top: 25px;
+            color: white;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 76, 76, 0.4);
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .btn-danger:hover
+        {
+            background: linear-gradient(145deg, #d32f2f, #ff1a1a);
+            transform: scale(1.07);
+            box-shadow: 0 6px 20px rgba(255, 76, 76, 0.6);
+        }
+        @keyframes fadeInUp
+        {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-section
+        {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            visibility: hidden;
+        }
+        .fade-in-section.is-visible
+        {
+            opacity: 1;
+            transform: translateY(0px);
+            visibility: visible;
+        }
+        @media (max-width: 768px) {
+            .dashboard
+            {
+                grid-template-columns: 1fr;
+            }
+            .card canvas#pieChart
+            {
+                height: 180px;
+            }
+        }
+        .msg
+        {
+            color:white;
+        }
+        .navbar {
+            position: absolute;
+            height:90px;
+            top: 20px;
+            bottom:5px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: rgba(255, 255, 255, 0.1); 
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1),  
+                        0px -4px 15px rgba(255, 255, 255, 0.05), 
+                        0px 4px 15px rgba(255, 255, 255, 0.1),  
+                        0px 4px 15px rgba(255, 255, 255, 0.1); 
+            border-radius: 30px;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            width: 120px;
+            margin-right: 10px;
+            border-radius: 20px;
+        }
+        
+        .navbar .listell a {
+            color: rgb(190, 181, 181);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .navbar .listell a:hover {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .navbar .listell a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #ff4081;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .navbar .listell a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .container-fluid{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .text-center{
+            padding-top:15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="#"><img src="{% static 'images/logo.jpeg' %}"  alt="Virtusa Logo"></a>
+        </div>
+        <div class="listell">
+            <a href="{% url 'home_page' %}">Home</a>
+            <a href="{% url 'sentiment_dashboard' %}">Score</a>
+            <a href="{% url 'sentiment_visual' %}">visualise</a>
+            <a href="#about">About</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </div>
+
+    <div class="container-fluid">
+        <h1 class="text-center">📊 Sentiment Visual Dashboard</h1>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card p-4 text-center">
+                    <h4>Cumulative Sentiment Score</h4>
+                    <h2 class="text-success">{{ cumulative_score }}</h2>
+                    <div class='msg'>{{message}}</div>
+                    <div class="text-center mt-4">
+                        <form method="POST" action="{% url 'reset_alerts' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Reset Alerts</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-4">
+                    <h4 class="text-center">Sentiment Scores Over Queries</h4>
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-4">
+                    <h4 class="text-center">Sentiment Distribution</h4>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card p-4">
+                    <h4 class="text-center">Browsing History Table</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Query</th>
+                                    <th>Sentiment Score</th>
+                                    <th>Mental State</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in table_data %}
+                                {%if entry.mental_state != '1'%}
+                                <tr>
+                                    <td>{{ entry.query }}</td>
+                                    <td>{{ entry.score }}</td>
+                                    <td>{{ entry.mental_state }}</td>
+                                </tr>
+                                {%endif%}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Line Chart -->
+    <script>
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const scoreChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ queries|safe }},
+                datasets: [{
+                    label: 'Sentiment Score',
+                    data: {{ scores|safe }},
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Queries',
+                            color: '#666',
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Sentiment Score',
+                            color: '#666',
+                        },
+                        min: 0,
+                        max: 1
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Pie Chart -->
+    <script>
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    label: 'Sentiment Distribution',
+                    data: [{{ positive_count }}, {{ neutral_count }}, {{ negative_count }}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',  // Green
+                        'rgba(255, 206, 86, 0.7)',  // Yellow
+                        'rgba(255, 99, 132, 0.7)'   // Red
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.raw || 0;
+                                let total = context.chart._metasets[context.datasetIndex].total;
+                                let percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

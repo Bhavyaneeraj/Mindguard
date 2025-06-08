@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browsing History Dashboard</title>
+    <style>
+        body
+        {
+            background-color: black;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        h1
+        {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        table
+        {
+            width: 80%;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 30px 8px rgba(255, 255, 255, 0.15);
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            text-align: center;
+        }
+        th, td
+        {
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        th
+        {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+        table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+        @keyframes fadeInUp
+        {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            visibility: hidden;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0px);
+            visibility: visible;
+        }
+        a
+        {
+            color: #00bfff;
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        a:hover
+        {
+            color: #ffffff;
+            text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <h1>Browsing History Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Search Query</th>
+                <th>Timestamp</th>
+                <th>Time Spent (s)</th>
+                <th>Mental State</th> <!-- New column -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in history %}
+            <tr>
+                <td>{{ entry.url}}</td>
+                <td>{{ entry.query }}</td>
+                <td>{{ entry.timestamp }}</td>
+                <td>{{ entry.time_spent }}</td>
+                <td>{{ entry.mental_state }}</td> <!-- Show prediction -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

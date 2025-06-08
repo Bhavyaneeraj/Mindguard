@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Guard - AI Mental Health Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="#"><img src="{% static 'images/logo.jpeg' %}"  alt="Virtusa Logo"></a>
+        </div>
+        <div class="listell">
+            <a href="{% url 'sentiment_dashboard' %}">Score</a>
+            <a href="{% url 'home_page' %}">Home</a>
+            <a href="/static/extensions/Browser_plugin.zip" download>Download</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </div>
+    </div>
+    <br/>
+    <div class="container" id="home">
+        <div class="left" id="vantaeffect">
+            <h1>Mind Guard</h1>
+            <p id="animated-text">Your AI-powered mental health companion, monitoring and supporting you in real-time.</p>
+        </div>
+        <div class="right">
+            <div class="app-preview">
+                <img src="{% static 'images/crosspic.png' %}" alt="Mind Guard App Preview">
+            </div>
+        </div>
+    </div>
+
+    <div class="features" id="features">
+        <h2>Why use Mind Guard?</h2>
+        <br/>
+        <div class="feature-list-wrapper">
+            <div class="feature-list">
+                <div class="feature-item">
+                    <img src="{% static 'images/ai powered.jpeg' %}" alt="AI Analysis Icon">
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Advanced AI algorithms detect patterns indicative of mental health concerns.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{% static 'images/privacy.jpeg' %}" alt="Privacy Icon">
+                    <h3>Privacy Protection</h3>
+                    <p>Your data is securely handled and kept confidential.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{% static 'images/detailed report.jpeg' %}" alt="Reporting Icon">
+                    <h3>Detailed Reporting</h3>
+                    <p>Receive comprehensive reports on mental health indicators.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{% static 'images/realtime.jpeg' %}" alt="Realtime Icon">
+                    <h3>Realtime Monitoring</h3>
+                    <p>Realtime presentation of mental health.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{% static 'images/alert.jpeg' %}" alt="Alert Icon">
+                    <h3>Alerts</h3>
+                    <p>Alerts via Mail, SMS, SOS, and doctors.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{% static 'images/watch.jpeg' %}" alt="Wearable Icon">
+                    <h3>Wearable Integration</h3>
+                    <p>Alerts via wearables.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="realtime-display">
+        <h2>Realtime Mental Health Display</h2>
+        <div class="display-area">
+            <p>Sentiment Score: 75</p>
+            <p>Depressed Words: 12</p>
+            <p class="emoji">😔-</p>
+            <p>Realtime animation or other display here.</p>
+        </div>
+    </div>
+
+    <div class="about" id="about">
+        <h2>About Mind Guard</h2>
+        <p>Mind Guard is an AI-powered mental health support application designed to provide parents with real-time insights into their child's mental well-being. By analyzing online browsing data, Mind Guard detects patterns that may indicate signs of depression or other mental health concerns.</p>
+        <p>Our mission is to empower parents with the tools they need to proactively support their children's mental health. Mind Guard offers a privacy-focused solution with detailed reporting, real-time monitoring, and alerts via various channels, including WhatsApp, email, SMS, and SOS.</p>
+        <p>We also offer the option to include doctors in alert notifications, ensuring that professional support is readily available when needed.</p>
+    </div>
+    <footer>
+        <img src="{% static 'images/logo.jpeg' %}" alt="Virtusa Logo">
+        <p>&copy; 2024 Mind Guard. Powered by Virtusa.</p>
+    </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script>
+    const p = document.getElementById('animated-text');
+    const text = p.textContent.trim();
+    p.textContent = '';
+    const words = text.split(' ');
+    let letterCount = 0; 
+    words.forEach(word => {
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        for (let i = 0; i < word.length; i++) 
+        {
+            const letterSpan = document.createElement('span');
+            letterSpan.className = 'letter';
+            letterSpan.textContent = word[i];
+            letterSpan.style.animationDelay = (letterCount * 0.1) + 's';
+            wordSpan.appendChild(letterSpan);
+            letterCount++; 
+        }
+    const space = document.createTextNode(' ');
+    wordSpan.appendChild(space);
+    p.appendChild(wordSpan);
+    });
+    VANTA.NET({
+        el: "#home",        
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        points: 14.00,
+        maxDistance: 23.00,
+        color: 0x4B3778,
+        backgroundColor: 0x0   
+        })
+</script>
+</body>
+</html>

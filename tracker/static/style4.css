@@ -1,0 +1,310 @@
+body
+    {
+        background-color: black;
+        color: white;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    h1
+    {
+        padding-top: 80px;
+        font-size: 3rem; 
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h2
+    {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .forms-container
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+    .btn-red
+    {
+        background: linear-gradient(145deg, #ff4c4c, #ff1a1a);
+        border: none;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: white;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 15px rgba(255, 76, 76, 0.4);
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+    }
+    .btn-red:hover
+    {
+        background: linear-gradient(145deg, #d32f2f, #ff1a1a);
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 76, 76, 0.6);
+    }
+    .btn-blue
+    {
+        background: linear-gradient(135deg, #42a5f5, #1e88e5);
+        border: none;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: bold;
+        color: white;
+        margin-top: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .btn-blue:hover
+    {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
+    }
+    table
+    {
+        width: 80%;
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0px 4px 30px 8px rgba(255, 255, 255, 0.15);
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 15px;
+        overflow: hidden;
+        animation: fadeInUp 1s ease forwards;
+        opacity: 0;
+        text-align: center;
+    }
+    th, td 
+    {
+        padding: 15px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    th
+    {
+        background-color: rgba(255, 255, 255, 0.2);
+        font-weight: bold;
+    }
+    table tr:first-child th:first-child {
+        border-top-left-radius: 15px;
+    }
+    table tr:first-child th:last-child {
+        border-top-right-radius: 15px;
+    }
+    table tr:last-child td:first-child {
+        border-bottom-left-radius: 15px;
+    }
+    table tr:last-child td:last-child {
+        border-bottom-right-radius: 15px;
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px)
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+        visibility: hidden;
+    }
+
+    .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0px);
+        visibility: visible;
+    }
+
+
+    .navbar {
+        position: absolute;
+        top: 20px;
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: rgba(255, 255, 255, 0.1); 
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2); 
+        box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1),  
+                    0px -4px 15px rgba(255, 255, 255, 0.05), 
+                    0px 4px 15px rgba(255, 255, 255, 0.1),  
+                    0px 4px 15px rgba(255, 255, 255, 0.1); 
+        border-radius: 30px;
+    }
+    
+    .navbar .logo {
+        display: flex;
+        align-items: center;
+    }
+    
+    .navbar .logo img {
+        width: 120px;
+        margin-right: 10px;
+        border-radius: 20px;
+    }
+    
+    .navbar .listell a {
+        color: rgb(190, 181, 181);
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: 0.3s;
+        position: relative;
+    }
+    
+    .navbar .listell a:hover {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .navbar .listell a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #ff4081;
+        transform-origin: bottom right;
+        transition: transform 0.3s ease-out;
+    }
+    
+    .navbar .listell a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .search-container input[type="text"] {
+        width: 300px;
+        padding: 10px 15px;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 16px;
+        outline: none;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-container input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .search-container input[type="text"]:focus {
+        border-color: #42a5f5;
+        box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+    }
+    
+    .search-container button {
+        background: linear-gradient(135deg, #42a5f5, #1e88e5);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        margin-left: 10px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+    }
+    
+    .search-container button:hover {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
+    }
+    
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .search-form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .search-container input[type="text"],
+    .search-container input[type="date"] {
+        width: 300px;
+        padding: 10px 15px;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 16px;
+        outline: none;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-container input[type="text"]::placeholder,
+    .search-container input[type="date"]::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .search-container input[type="text"]:focus,
+    .search-container input[type="date"]:focus {
+        border-color: #42a5f5;
+        box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+    }
+    
+    .search-container button {
+        background: linear-gradient(135deg, #42a5f5, #1e88e5);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+    }
+    
+    .search-container button:hover {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
+    }
+    a {
+        color: #938689; /* Set the link color to your preferred color */
+        text-decoration: none; /* Remove the underline */
+        transition: color 0.3s, text-decoration 0.3s; /* Add a smooth transition effect */
+    }
+    
+    a:hover {
+        color: #3514aa; /* Change color on hover */
+        text-decoration: underline; /* Optionally add underline on hover */
+    }
+    
+    
