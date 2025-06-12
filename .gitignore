@@ -1,0 +1,38 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django database
+db.sqlite3
+
+# Environment variables
+.env
+
+# Vercel static build output
+staticfiles/
+
+# Media uploads (optional)
+media/
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test coverage
+htmlcov/
+coverage.xml
+*.cover
+.cache
+
+# Virtual environment
+venv/
+env/

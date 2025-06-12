@@ -27,6 +27,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db.models import Q
 from datetime import timedelta
+from decouple import config
 
 @csrf_exempt
 def track_url(request):
@@ -142,8 +143,8 @@ Current score: {cumulative_score}
 Want personalized mental health insights based on your recent activity?
 Click here: {insight_link}
 ''',
-                from_email='virtusaalert@gmail.com',
-                recipient_list=['bhavyaneerajravuri@gmail.com'],
+                from_email = config('FROM_EMAIL'),
+                recipient_list = config('RECIPIENT_LIST').split(','),
                 fail_silently=False,
             )
 
