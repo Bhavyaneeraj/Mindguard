@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['mindguard-ksm2.onrender.com']
+ALLOWED_HOSTS = ['mindguard-yxjl.onrender.com']
 
 
 # Application definition
